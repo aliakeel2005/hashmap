@@ -35,13 +35,23 @@ class HashMap
   def has?(key)
     @buckets.each do |elem|
       return true if elem.is_a?(Array) && elem[0] == key
-
-      return false
     end
+    false
+  end
+
+  def remove(key)
+    @buckets.each_with_index do |elem, index|
+      next unless elem.is_a?(Array) && elem[0] == key
+
+      value = elem[1]
+      @buckets[index] = nil
+      return value
+    end
+    nil
   end
 end
 
 map = HashMap.new
 map.set('ali', 'akeel')
 map.set('ali', 'ahmed')
-p map.has?('jasim')
+p map.remove('ali')
