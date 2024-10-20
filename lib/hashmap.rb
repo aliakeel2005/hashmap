@@ -15,15 +15,33 @@ class HashMap
   def set(key, value)
     hash = hash(key) % 16
     if @buckets[hash].nil?
-    @buckets[hash] = [key, value]
-    p @buckets
+      raise IndexError if hash.negative? || hash >= @buckets.length
+
+      @buckets[hash] = [key, value]
     else
       @buckets[hash][1] = value
-      p @buckets
+    end
+    p @buckets
+  end
+
+  def get(key)
+    @buckets.each do |elem|
+      return elem[1] if elem.is_a?(Array) && elem[0] == key
+
+      return nil
+    end
+  end
+
+  def has?(key)
+    @buckets.each do |elem|
+      return true if elem.is_a?(Array) && elem[0] == key
+
+      return false
     end
   end
 end
 
 map = HashMap.new
-map.set("ali", "akeel")
-map.set("ali", "ahmed")
+map.set('ali', 'akeel')
+map.set('ali', 'ahmed')
+p map.has?('jasim')
