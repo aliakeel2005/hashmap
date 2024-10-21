@@ -21,37 +21,31 @@ class HashMap
     else
       @buckets[hash][1] = value
     end
-    p @buckets
   end
 
   def get(key)
-    @buckets.each do |elem|
-      return elem[1] if elem.is_a?(Array) && elem[0] == key
-
-      return nil
-    end
+    code = hash(key) % 16
+    @buckets[code] unless @buckets[code].nil?
   end
 
   def has?(key)
-    @buckets.each do |elem|
-      return true if elem.is_a?(Array) && elem[0] == key
-    end
-    false
+    code = hash(key) % 16
+    return false if @buckets[code].nil?
+
+    true
   end
 
   def remove(key)
-    @buckets.each_with_index do |elem, index|
-      next unless elem.is_a?(Array) && elem[0] == key
+    code = hash(key) % 16
+    return nil if @buckets[code].nil?
 
-      value = elem[1]
-      @buckets[index] = nil
-      return value
-    end
-    nil
+    val = @buckets[code][1]
+    @buckets[code] = nil
+    val
   end
 end
 
 map = HashMap.new
-map.set('ali', 'akeel')
-map.set('ali', 'ahmed')
-p map.remove('ali')
+p map.set('ali', 'akeel')
+p map.set('ahmed', 'qasim')
+p map.remove('ahmed')
