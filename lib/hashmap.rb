@@ -1,6 +1,7 @@
 class HashMap
-  def initialize
+  def initialize(load_factor = 0.75)
     @buckets = Array.new(16)
+    @load_factor = load_factor
   end
 
   def hash(key)
@@ -51,9 +52,40 @@ class HashMap
     end
     length
   end
+
+  def clear
+    @buckets = Array.new(@buckets.size)
+  end
+
+  def keys
+    keys = ''
+    @buckets.each do |bucket|
+      keys += "[#{bucket[0]}] " unless bucket.nil?
+    end
+    keys
+  end
+
+  def values
+    values = ''
+    @buckets.each do |bucket|
+      values += "[#{bucket[1]}] " unless bucket.nil?
+    end
+    values
+  end
+
+  def entries
+    entries = ''
+    @buckets.each do |bucket|
+      entries += "[#{bucket[0]}, #{bucket[1]}], " unless bucket.nil?
+    end
+    entries
+  end
 end
 
 map = HashMap.new
 p map.set('ali', 'akeel')
 p map.set('ahmed', 'qasim')
 p map.length
+p map.keys
+p map.values
+p map.entries
