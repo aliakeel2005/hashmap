@@ -43,9 +43,17 @@ class HashMap
     @buckets[code] = nil
     val
   end
+
+  def length
+    length = 0
+    @buckets.each do |bucket|
+      length += 1 unless bucket.nil?
+    end
+    length
+  end
 end
 
 map = HashMap.new
 p map.set('ali', 'akeel')
 p map.set('ahmed', 'qasim')
-p map.remove('ahmed')
+p map.length
