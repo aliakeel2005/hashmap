@@ -1,3 +1,5 @@
+require_relative 'node'
+
 class HashMap
   def initialize(load_factor = 0.75)
     @buckets = Array.new(16)
@@ -13,15 +15,29 @@ class HashMap
     hash_code
   end
 
+  def self.length
+    length = 0
+    @buckets.each do |bucket|
+      length += 1 unless bucket.nil?
+    end
+    length
+  end
+
   def set(key, value)
     hash = hash(key) % 16
     if @buckets[hash].nil?
       raise IndexError if hash.negative? || hash >= @buckets.length
 
       @buckets[hash] = [key, value]
-    else
+    elsif key == @buckets[hash][0]
       @buckets[hash][1] = value
+    else
+
     end
+  end
+
+  def test
+    p @buckets.size * @load_factor
   end
 
   def get(key)
@@ -84,8 +100,4 @@ end
 
 map = HashMap.new
 p map.set('ali', 'akeel')
-p map.set('ahmed', 'qasim')
 p map.length
-p map.keys
-p map.values
-p map.entries
