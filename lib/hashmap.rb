@@ -1,6 +1,6 @@
 require_relative 'node'
-
-class HashMap
+require_relative 'linkedlist'
+class HashMap < LinkedList
   def initialize(load_factor = 0.75)
     @buckets = Array.new(16)
     @load_factor = load_factor
@@ -28,11 +28,15 @@ class HashMap
     if @buckets[hash].nil?
       raise IndexError if hash.negative? || hash >= @buckets.length
 
-      @buckets[hash] = [key, value]
-    elsif key == @buckets[hash][0]
-      @buckets[hash][1] = value
+      @buckets[hash] = LinkedList.new
+      @buckets[hash].append([key, value])
     else
-
+      node = @buckets[hash].find(key)
+      if node
+        node.value[1] = value
+      else
+        @buckets[hash] = append([key, value])
+      end
     end
   end
 
@@ -100,4 +104,6 @@ end
 
 map = HashMap.new
 p map.set('ali', 'akeel')
+p map.set('muslim', 'aakeel')
+p map.set('muslim', 'jasim')
 p map.length
