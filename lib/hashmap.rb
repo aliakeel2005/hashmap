@@ -46,7 +46,7 @@ class HashMap < LinkedList
 
   def get(key)
     code = hash(key) % 16
-    @buckets[code] unless @buckets[code].nil?
+    @buckets[code].value[1] unless @buckets[code].nil?
   end
 
   def has?(key)
@@ -106,4 +106,4 @@ map = HashMap.new
 p map.set('ali', 'akeel')
 p map.set('muslim', 'aakeel')
 p map.set('muslim', 'jasim')
-p map.length
+p map.set('ahmed', 'qasim')
