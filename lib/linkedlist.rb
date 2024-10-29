@@ -15,14 +15,12 @@ class LinkedList
     end
   end
 
-  def find(value)
+  def find(key)
     current_node = @head
-    current_index = 0
     until current_node.nil?
-      return current_index if current_node.value == value
+      return current_node if current_node.value[0] == key
 
       current_node = current_node.next_node
-      current_index += 1
     end
     nil
   end

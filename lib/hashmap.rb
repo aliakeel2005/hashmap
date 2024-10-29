@@ -25,18 +25,18 @@ class HashMap < LinkedList
 
   def set(key, value)
     hash = hash(key) % 16
+
     if @buckets[hash].nil?
       raise IndexError if hash.negative? || hash >= @buckets.length
 
       @buckets[hash] = LinkedList.new
-      @buckets[hash].append([key, value])
+    end
+
+    node = @buckets[hash].find(key)
+    if node
+      node.value[1] = value
     else
-      node = @buckets[hash].find(key)
-      if node
-        node.value[1] = value
-      else
-        @buckets[hash] = append([key, value])
-      end
+      @buckets[hash].append([key, value])
     end
   end
 
@@ -46,7 +46,7 @@ class HashMap < LinkedList
 
   def get(key)
     code = hash(key) % 16
-    @buckets[code].value[1] unless @buckets[code].nil?
+    @buckets[code].find(key).value[1] unless @buckets[code].nil?
   end
 
   def has?(key)
@@ -103,7 +103,9 @@ class HashMap < LinkedList
 end
 
 map = HashMap.new
-p map.set('ali', 'akeel')
-p map.set('muslim', 'aakeel')
-p map.set('muslim', 'jasim')
-p map.set('ahmed', 'qasim')
+map.set('ali', 'akeel')
+map.set('muslim', 'aakeel')
+map.set('muslim', 'jasim')
+p map.get('muslim')
+map.set('ahmed', 'qasim')
+p map.get('ahmed')
