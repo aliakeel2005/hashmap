@@ -33,7 +33,9 @@ class HashMap < LinkedList
   end
 
   def test
-    p length * @load_factor
+    return unless length % 16 > @buckets.size * @load_factor
+
+    p 'load factor exceeded'
   end
 
   def get(key)
