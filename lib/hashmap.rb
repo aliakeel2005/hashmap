@@ -15,14 +15,6 @@ class HashMap < LinkedList
     hash_code
   end
 
-  def self.length
-    length = 0
-    @buckets.each do |bucket|
-      length += 1 unless bucket.nil?
-    end
-    length
-  end
-
   def set(key, value)
     hash = hash(key) % 16
 
@@ -41,7 +33,7 @@ class HashMap < LinkedList
   end
 
   def test
-    p @buckets.size * @load_factor
+    p length * @load_factor
   end
 
   def get(key)
@@ -103,9 +95,18 @@ class HashMap < LinkedList
 end
 
 map = HashMap.new
-map.set('ali', 'akeel')
-map.set('muslim', 'aakeel')
-map.set('muslim', 'jasim')
-p map.get('muslim')
-map.set('ahmed', 'qasim')
-p map.get('ahmed')
+map.set('apple', 'red')
+map.set('banana', 'yellow')
+map.set('carrot', 'orange')
+map.set('dog', 'brown')
+map.set('elephant', 'gray')
+map.set('frog', 'green')
+map.set('grape', 'purple')
+map.set('hat', 'black')
+map.set('ice cream', 'white')
+map.set('jacket', 'blue')
+map.set('kite', 'pink')
+map.set('lion', 'golden')
+map.set('moon', 'silver')
+
+p map.test
