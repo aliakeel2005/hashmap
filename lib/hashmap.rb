@@ -33,6 +33,7 @@ class HashMap < LinkedList
   end
 
   def test
+    p length
     return unless length % 16 > @buckets.size * @load_factor
 
     p 'load factor exceeded'
@@ -62,7 +63,9 @@ class HashMap < LinkedList
   def length
     length = 0
     @buckets.each do |bucket|
-      length += 1 unless bucket.nil?
+      next if bucket.nil?
+
+      length += bucket.key_length
     end
     length
   end
@@ -111,4 +114,4 @@ map.set('kite', 'pink')
 map.set('lion', 'golden')
 map.set('moon', 'silver')
 
-p map.test
+p map.length

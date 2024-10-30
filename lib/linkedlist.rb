@@ -24,4 +24,15 @@ class LinkedList
     end
     nil
   end
+
+  def key_length
+    current_node = @head
+    keys = 0
+    until current_node.nil?
+      keys += 1
+      return keys if current_node.next_node.nil?
+
+      current_node = current_node.next_node
+    end
+  end
 end
