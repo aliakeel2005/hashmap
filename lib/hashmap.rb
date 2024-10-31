@@ -15,9 +15,26 @@ class HashMap < LinkedList
     hash_code
   end
 
-  def set(key, value)
-    hash = hash(key) % 16
+  def expand_buckets
+    return unless length > @buckets.size * @load_factor
 
+    new_buckets = Array.new(@buckets.size * 2)
+    @buckets.each do |bucket|
+      next unless bucket
+
+      bucket.each do |node|
+        hash = hash(node.value[0]) % new_buckets.size
+        new_buckets[hash] ||= LinkedList.new
+        new_buckets[hash].append(node.value)
+      end
+    end
+    @buckets = new_buckets
+    p 'buckets expanded'
+  end
+
+  def set(key, value)
+    expand_buckets if length > @buckets.size * @load_factor
+    hash = hash(key) % @buckets.size
     if @buckets[hash].nil?
       raise IndexError if hash.negative? || hash >= @buckets.length
 
@@ -34,13 +51,13 @@ class HashMap < LinkedList
 
   def test
     p length
-    return unless length % 16 > @buckets.size * @load_factor
+    return unless length > @buckets.size * @load_factor
 
     p 'load factor exceeded'
   end
 
   def get(key)
-    code = hash(key) % 16
+    code = hash(key) % @buckets.size
     @buckets[code].find(key).value[1] unless @buckets[code].nil?
   end
 
@@ -112,6 +129,9 @@ map.set('ice cream', 'white')
 map.set('jacket', 'blue')
 map.set('kite', 'pink')
 map.set('lion', 'golden')
-map.set('moon', 'silver')
-
-p map.length
+map.set('silver', 'bullshit')
+map.set('who', 'cares')
+map.test
+p map.get('lion')
+map.set('who', 'i care')
+map.test

@@ -35,4 +35,12 @@ class LinkedList
       current_node = current_node.next_node
     end
   end
+
+  def each
+    current_node = @head
+    while current_node
+      yield current_node
+      current_node = current_node.next_node
+    end
+  end
 end
